@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# better-auth-org-demo
 
-## Getting Started
+[better-auth](https://better-auth.com) の [organization plugin](https://better-auth.com/docs/plugins/organization) が
+**組織を作った瞬間にデータベースへ何を書くのか**を目で見るためのデモアプリです。
 
-First, run the development server:
+画面は左右 2 ペインで、左が操作パネル、右が `demo.db` を 1 秒ごとに読み直すライブビューアです。
+`createOrganization` を押すと `organization` と `member` の 2 行が同時に増える様子がそのまま見えます。
+
+## 構成
+
+| ファイル | 役割 |
+| --- | --- |
+| `lib/auth.ts` | `betterAuth()` の設定。organization plugin、`databaseHooks`、`organizationHooks` |
+| `lib/permissions.ts` | `createAccessControl` による権限定義。`defaultStatements` のマージ例 |
+| `lib/auth-client.ts` | `organizationClient()` を載せたクライアント |
+| `db/schema.ts` | `@better-auth/cli generate` が出力した Drizzle スキーマ |
+| `app/api/db-snapshot/route.ts` | ライブビューア用に各テーブルを返すだけの API |
+| `components/DbViewer.tsx` | 右ペイン。新しく増えた行を緑でハイライトする |
+| `scripts/record.mjs` | Playwright + ffmpeg で操作を GIF に録画する |
+
+## 動かす
 
 ```bash
+npm install
+cp .env.example .env    # BETTER_AUTH_SECRET を適当な値に
+npx drizzle-kit push
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000 を開き、サインアップ → createOrganization の順に押してください。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GIF を撮り直す
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`npm run dev` を起動した状態で:
 
-## Learn More
+```bash
+node scripts/record.mjs
+```
 
-To learn more about Next.js, take a look at the following resources:
+`recordings/*.gif` が生成されます。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 注意
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+認証情報や設定はデモ用に振り切っています。メール確認は無効、招待メールはサーバログに URL を出すだけ、
+`BETTER_AUTH_SECRET` はリポジトリに含まれる固定値です。そのまま本番に持っていかないでください。

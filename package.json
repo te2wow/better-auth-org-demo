@@ -8,15 +8,21 @@
     "start": "next start"
   },
   "dependencies": {
+    "better-auth": "^1.6.25",
+    "better-sqlite3": "^12.11.1",
+    "drizzle-orm": "^0.45.2",
     "next": "16.2.12",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.10",
+    "playwright": "^1.62.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
