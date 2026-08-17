@@ -13,7 +13,7 @@
 | `lib/auth.ts` | `betterAuth()` の設定。organization plugin、`databaseHooks`、`organizationHooks` |
 | `lib/permissions.ts` | `createAccessControl` による権限定義。`defaultStatements` のマージ例 |
 | `lib/auth-client.ts` | `organizationClient()` を載せたクライアント |
-| `db/schema.ts` | `@better-auth/cli generate` が出力した Drizzle スキーマ |
+| `db/schema.ts` | better-auth の CLI（`npx auth@latest generate`）が出力した Drizzle スキーマ |
 | `app/api/db-snapshot/route.ts` | ライブビューア用に各テーブルを返すだけの API |
 | `components/DbViewer.tsx` | 右ペイン。新しく増えた行を緑でハイライトする |
 | `scripts/record.mjs` | Playwright + ffmpeg で操作を GIF に録画する |
@@ -42,4 +42,4 @@ node scripts/record.mjs
 ## 注意
 
 認証情報や設定はデモ用に振り切っています。メール確認は無効、招待メールはサーバログに URL を出すだけ、
-`BETTER_AUTH_SECRET` はリポジトリに含まれる固定値です。そのまま本番に持っていかないでください。
+`.env` は gitignore しているので、`.env.example` をコピーして `BETTER_AUTH_SECRET` を自分で設定してください。そのまま本番に持っていかないでください。
